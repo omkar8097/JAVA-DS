@@ -1,0 +1,362 @@
+21. How to find duplicate elements in a Stream in Java?
+
+
+
+// Java program to find the duplicate 
+// elements in a Stream using Set 
+​
+import java.util.*; 
+import java.util.stream.*; 
+​
+public class GfG 
+{ 
+​
+    // Function to find the 
+    // duplicates in a Stream 
+    public static <T> Set<T> 
+    findDuplicateInStream(Stream<T> stream) 
+    { 
+​
+        // Set for storing the duplicate elements 
+        Set<T> items = new HashSet<>(); 
+​
+        // Returning the set of duplicate elements 
+        return stream 
+​
+            // Set.add() returns false 
+            // if the element was 
+            // already present in the set. 
+            // Hence filter such elements 
+            .filter(n -> !items.add(n)) 
+​
+            // Collect duplicate elements 
+            // in the set 
+            .collect(Collectors.toSet()); 
+    } 
+​
+    // Driver code 
+    public static void main(String args[]) 
+    { 
+​
+        // Initial stream 
+        Stream<Integer> stream 
+            = Stream.of(2, 17, 5, 
+                        20, 17, 30, 
+                        4, 23, 59, 23); 
+​
+        // Print the found duplicate elements 
+        System.out.println( 
+            findDuplicateInStream(stream)); 
+    } 
+}
+
+Output
+[17, 23]
+22. Count occurrence of a given character in a string using Stream API in Java.
+
+
+
+// Java program to count occurrences 
+// of a character using Stream 
+import java.util.stream.*; 
+​
+class GFG 
+{ 
+    public static long count(String s, char ch) 
+    { 
+        // converting the string to an IntStream of the character codes,
+        // filter by the character code of the specified character,
+        // and count the occurrences
+        return s.chars() 
+            .filter(c -> c == ch) 
+            .count(); 
+    } 
+​
+    // Main method to test count method
+    public static void main(String args[]) 
+    { 
+        String str = "geeksforgeeks"; 
+        char c = 'g'; 
+        System.out.println(count(str, c)); 
+    } 
+}
+
+Output
+2
+23. How to get Slice of a Stream in Java?
+
+
+
+// Java program to get slice of a stream using 
+// Stream skip() and limit() 
+import java.util.*; 
+import java.util.stream.Stream; 
+​
+class GFG 
+{ 
+​
+    // Method to get a slice of a stream from startIndex to endIndex
+    public static <T> Stream<T> 
+    getSliceOfStream(Stream<T> stream, int startIndex, 
+                                        int endIndex) 
+    { 
+        return stream 
+            // Skip elements until the startIndex
+            .skip(startIndex) 
+            // Limit the stream to elements between startIndex and endIndex
+            .limit(endIndex - startIndex + 1); 
+    } 
+    
+    public static void main(String args[]) 
+    { 
+        // Create a list of integers
+        List<Integer> list = new ArrayList<>(); 
+        for (int i = 10; i <= 19; i++) 
+            list.add(i); 
+​
+        // Get a stream from the list
+        Stream<Integer> intStream = list.stream(); 
+​
+        // Print the original list
+        System.out.println("List: " + list); 
+​
+        // Get a slice of the stream from index 3 to 7
+        Stream<Integer> 
+            sliceOfIntStream = getSliceOfStream(intStream, 3, 7); 
+​
+        // Print the slice of the stream
+        System.out.println("\nSlice of Stream:"); 
+        sliceOfIntStream.forEach(System.out::println); 
+    } 
+}
+
+Output
+List: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+
+Slice of Stream:
+13
+14
+15
+16
+17
+24. How to Reverse elements of a Parallel Stream in Java?
+
+
+
+// Java program to reverse elements 
+// of a parallel Stream 
+​
+import java.util.*; 
+import java.util.stream.*; 
+​
+class GFG 
+{ 
+​
+    // Generic function to reverse 
+    // the elements of the parallel stream 
+    public static <T> Collector<T, ?, Stream<T> > reverseStream() 
+    { 
+        return Collectors 
+            .collectingAndThen(Collectors.toList(), 
+                            list -> { 
+                                Collections.reverse(list); 
+                                return list.stream(); 
+                            }); 
+    } 
+​
+    // Driver code 
+    public static void main(String args[]) 
+    { 
+​
+        // Get the parallel stream 
+        List<Integer> lists = Arrays.asList(217, 317, 417, 517); 
+        Stream<Integer> stream = lists.parallelStream(); 
+​
+        // Reverse and print the elements 
+        stream.collect(reverseStream()) 
+            .forEach(System.out::println); 
+    } 
+}
+
+Output
+517
+417
+317
+217
+25. Write a Program to Iterate over a Stream with Indices in Java 8.
+
+
+
+// Java program demonstration to iterate over Stream with Indices
+import java.util.stream.IntStream;
+​
+class GFG {
+    public static void main(String[] args) {
+​
+        // Array of Strings
+        String[] array = { "G", "E", "E", "k" };
+​
+        // Iterating over the indices of an array
+        IntStream
+                // Generate indices from 0 to array length
+                .range(0, array.length)
+                // Map each index to its corresponding string representation
+                .mapToObj(index -> String.format("%d -> %s", index, array[index]))
+                // print each and every element of the stream
+                .forEach(System.out::println);
+    }
+}
+
+Output
+0 -> H
+1 -> E
+2 -> L
+3 -> L
+4 -> O
+26. What is CompletableFuture?
+CompletableFuture is just an extension of the future object introduced in JDK5.
+
+In Java, CompletableFuture is used for asynchronous programming.
+Asynchronous programming is a method of writing non-blocking code by executing a task on a separate thread than the main application thread.
+And, notifies the main thread of its progress, completion, or failure.
+27. Why CompletableFuture why not Future?
+Future cannot be manually completed.
+Multiple Futures can't be chained together.
+We can't combine multiple Futures together.
+No exception handling.
+28. What is method reference in Java 8?
+Method reference is a concise way to use a lambda expression for calling a method directly. It simplifies the code by providing a shorthand notation. are four types of method references that are listed below:
+
+Static Method Reference
+Instance Method Reference of a particular object
+Referencing an instance method of an unspecified object belonging to a specific class.
+Constructor Reference.
+Example:
+
+numList.stream().filter(n -> n > 5).sorted().forEach(System.out::println);
+For more details, refer to this article: Method References in Java with examples
+
+29. What is MetaSpace in Java 8?
+In Java 8, Metaspace stores class metadata in native memory, separate from the heap. It can dynamically expand, overcoming size limitations, and enhances garbage collection efficiency, auto-tuning, and metadata distribution.
+
+It is used by the JVM to store metadata about loaded classes and methods.
+It replaces the PermGen space, offering dynamic allocation, separate memory management from the heap, and improved garbage collection, thereby mitigating PermGen space errors.
+30. What is Java class dependency analyser in Java 8?
+The Java Class Dependency Analyzer in Java 8 is a tool for analyzing dependencies between classes in a Java application.
+
+It helps in understanding the structure and interactions within a codebase.
+Useful for analyzing dependencies and managing code complexity.
+It can provide insights into potential refactoring or optimizations.
+Typically visualized through diagrams or dependency graphs for easier comprehension.
+Java 8 MCQs
+Once you have explored all the Java 8 interview questions, try this section to upscale you Java 8 skill more. Here we have listed some important Java 8 MCQ to boost your Java knowledge.
+
+Q. What is a key feature introduced in Java 8?
+A. Lambda Expressions
+
+B. Annotations
+
+C. Generics
+
+D. Checked Exceptions
+
+Answer: A) Lambda Expressions
+
+Q. Which interface in Java 8 is used to represent a sequence of elements?
+A. List
+
+B. Queue
+
+C. Stream
+
+D. Set
+
+Answer: C. Stream
+
+Q. Which functional interface is used to represent a function that accepts two arguments and produces a result?
+A. Function
+
+B. BiConsumer
+
+C. BiFunction
+
+D. Predicate
+
+Answer: C. BiFunction
+
+Q. What does the forEach method do in Java 8 Stream API?
+A. Filters the stream elements
+
+B. Maps the stream elements
+
+C. Applies an action to each element of the stream
+
+D. Terminates the stream
+
+Answer: C. Applies an action to each element of the stream
+
+Q. Which method is used to merge two streams in Java 8 Stream API?
+A. concat()
+
+B. merge()
+
+C. join()
+
+D. combine()
+
+Answer: A. concat()
+
+Q. What does the peek method do in Java 8 Stream API?
+A. Removes elements from the stream
+
+B. Modifies elements in the stream
+
+C. Applies an action to each element of the stream without changing its contents
+
+D. Terminates the stream
+
+Answer: C. Applies an action to each element of the stream without changing its contents
+
+Q. Which collector is used to collect elements into an immutable list in Java 8 Stream API?
+A. toList()
+
+B. toSet()
+
+C. toMap()
+
+D. toImmutableList()
+
+Answer: D. toImmutableList()
+
+Q. What is the purpose of the Optional class introduced in Java 8?
+A. To handle checked exceptions
+
+B. To represent an object that may or may not contain a value
+
+C. To perform mathematical operations
+
+D. To represent an immutable list
+
+Answer: B. To represent an object that may or may not contain a value
+
+Q. Which interface is used to sort objects in Java 8?
+A. Comparator
+
+B. Sortable
+
+C. Sorter
+
+D. Comparable
+
+Answer: A. Comparator
+
+Q. What does the reduce method do in Java 8 Stream API?
+A. Filters the stream elements based on a predicate
+
+B. Terminates the stream and produces a single result by iteratively applying a binary operation
+
+C. Maps each element of the stream to a new value
+
+D. Concatenates the stream elements into a single string
+
+Answer: B. Terminates the stream and produces a single result by iteratively applying a binary operation
